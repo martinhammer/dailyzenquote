@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OCA\DailyZenQuote\AppInfo;
 
+use OCA\DailyZenQuote\Dashboard\ZenQuoteWidget;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -18,6 +19,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerDashboardWidget(ZenQuoteWidget::class);
 	}
 
 	public function boot(IBootContext $context): void {

@@ -1,33 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import axios from '@nextcloud/axios'
 import { t } from '@nextcloud/l10n'
-import { generateOcsUrl } from '@nextcloud/router'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcContent from '@nextcloud/vue/components/NcContent'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import { useQuote } from './composables/useQuote.ts'
 
-const quote = ref<string | null>(null)
-const author = ref<string | null>(null)
-const loading = ref(true)
-const error = ref(false)
-
-onMounted(async () => {
-	try {
-		const url = generateOcsUrl('apps/dailyzenquote/quote')
-		const response = await axios.get(url, {
-			params: { format: 'json' },
-			headers: { 'OCS-APIRequest': 'true' },
-		})
-		quote.value = response.data.ocs.data.quote
-		author.value = response.data.ocs.data.author
-	} catch {
-		error.value = true
-	} finally {
-		loading.value = false
-	}
-})
+const { quote, author, loading, error } = useQuote()
 </script>
 
 <template>
