@@ -47,10 +47,10 @@
         }
     },
     "paths": {
-        "/ocs/v2.php/apps/dailyzenquote/api": {
+        "/ocs/v2.php/apps/dailyzenquote/quote": {
             "get": {
-                "operationId": "api-index",
-                "summary": "An example API endpoint",
+                "operationId": "api-quote",
+                "summary": "Get today's inspirational quote",
                 "tags": [
                     "api"
                 ],
@@ -76,7 +76,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Data returned",
+                        "description": "Quote returned successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -98,10 +98,14 @@
                                                 "data": {
                                                     "type": "object",
                                                     "required": [
-                                                        "message"
+                                                        "quote",
+                                                        "author"
                                                     ],
                                                     "properties": {
-                                                        "message": {
+                                                        "quote": {
+                                                            "type": "string"
+                                                        },
+                                                        "author": {
                                                             "type": "string"
                                                         }
                                                     }
@@ -134,6 +138,44 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to fetch quote from upstream API",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "message"
+                                                    ],
+                                                    "properties": {
+                                                        "message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
