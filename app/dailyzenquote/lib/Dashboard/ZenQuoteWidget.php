@@ -31,11 +31,11 @@ class ZenQuoteWidget implements IWidget {
 	}
 
 	public function getIconClass(): string {
-		return '';
+		return 'icon-dailyzenquote';
 	}
 
 	public function getIconUrl(): string {
-		return $this->urlGenerator->imagePath(Application::APP_ID, 'app-dark.svg');
+		return $this->urlGenerator->imagePath(Application::APP_ID, 'app.svg');
 	}
 
 	public function getUrl(): string {
@@ -44,5 +44,6 @@ class ZenQuoteWidget implements IWidget {
 
 	public function load(): void {
 		Util::addScript(Application::APP_ID, Application::APP_ID . '-widget');
+		Util::addStyle(Application::APP_ID, Application::APP_ID . '-widget');
 	}
 }

@@ -15,11 +15,17 @@ const { quote, author, loading, error } = useQuote()
 			{{ t('dailyzenquote', 'Could not load quote') }}
 		</p>
 		<figure v-else :class="$style.figure">
-			<blockquote :class="$style.quote"><em>{{ quote }}</em></blockquote>
+			<blockquote :class="$style.quote">{{ quote }}</blockquote>
 			<figcaption :class="$style.author">— {{ author }}</figcaption>
 		</figure>
 	</div>
 </template>
+
+<style>
+.icon-dailyzenquote {
+	background-image: url('../img/app.svg');
+}
+</style>
 
 <style module>
 .widget {
@@ -45,12 +51,12 @@ const { quote, author, loading, error } = useQuote()
 .quote {
 	line-height: 1.5;
 	margin: 0 0 8px;
-	font-size: 0.95rem;
+	font-size: 1.5rem;
 	color: var(--color-main-text);
 }
 
 .author {
-	font-size: 0.85rem;
+	font-size: 0.95rem;
 	color: var(--color-text-maxcontrast);
 }
 
