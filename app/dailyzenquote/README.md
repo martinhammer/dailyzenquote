@@ -13,7 +13,7 @@ Feel free to get in touch and/or submit an issue.
 ### Screenshots
 
 Application view
-![Screenshot of application view](img/photoScreenshot01.png)
+![Screenshot of application view](img/Screenshot01.png)
 
 Dashboard widget
-![Screenshot of dashboard widget](img/photoScreenshot02.png)
+![Screenshot of dashboard widget](img/Screenshot02.png)
