@@ -23,7 +23,8 @@ const { quote, author, loading, error } = useQuote()
 
 <style>
 .icon-dailyzenquote {
-	background-image: url('../img/app.svg');
+	background-image: url('../img/app-dark.svg');
+	filter: var(--background-invert-if-dark);
 }
 </style>
 

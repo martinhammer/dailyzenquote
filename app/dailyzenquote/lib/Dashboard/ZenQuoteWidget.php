@@ -35,7 +35,7 @@ class ZenQuoteWidget implements IWidget {
 	}
 
 	public function getIconUrl(): string {
-		return $this->urlGenerator->imagePath(Application::APP_ID, 'app.svg');
+		return $this->urlGenerator->imagePath(Application::APP_ID, 'app-dark.svg');
 	}
 
 	public function getUrl(): string {
