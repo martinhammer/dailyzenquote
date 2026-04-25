@@ -5,8 +5,8 @@
 	"authors": [
 		{
 			"name": "Martin Hammer",
-			"email": "nextcloud@martinhammer.com",
-			"homepage": ""
+			"email": "me@martinhammer.com",
+			"homepage": "https://github.com/martinhammer"
 		}
 	],
 	"autoload": {
