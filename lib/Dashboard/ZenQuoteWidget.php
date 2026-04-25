@@ -10,6 +10,7 @@ use OCP\IURLGenerator;
 use OCP\Util;
 
 /**
+ * @psalm-api
  * @psalm-suppress UnusedClass
  */
 class ZenQuoteWidget implements IWidget {

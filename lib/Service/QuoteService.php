@@ -7,6 +7,9 @@ namespace OCA\DailyZenQuote\Service;
 use OCP\Http\Client\IClientService;
 use OCP\ICacheFactory;
 
+/**
+ * @psalm-api
+ */
 class QuoteService {
 	private const ZENQUOTES_URL = 'https://zenquotes.io/api/today';
 	private const CACHE_TTL = 86400;
@@ -36,7 +39,7 @@ class QuoteService {
 		try {
 			$client = $this->clientService->newClient();
 			$response = $client->get(self::ZENQUOTES_URL);
-			$data = json_decode($response->getBody(), true);
+			$data = json_decode((string)$response->getBody(), true);
 		} catch (\Exception $e) {
 			throw new QuoteFetchException('Failed to fetch quote from ZenQuotes API: ' . $e->getMessage(), 0, $e);
 		}
@@ -46,8 +49,8 @@ class QuoteService {
 		}
 
 		$result = [
-			'quote' => (string) $data[0]['q'],
-			'author' => (string) $data[0]['a'],
+			'quote' => (string)$data[0]['q'],
+			'author' => (string)$data[0]['a'],
 		];
 
 		$cache->set($cacheKey, $result, self::CACHE_TTL);
