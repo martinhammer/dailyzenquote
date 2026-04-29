@@ -39,8 +39,8 @@ class ZenQuoteWidget implements IWidget {
 		return $this->urlGenerator->imagePath(Application::APP_ID, 'app-dark.svg');
 	}
 
-	public function getUrl(): string {
-		return $this->urlGenerator->linkToRouteAbsolute('dailyzenquote.page.index');
+	public function getUrl(): ?string {
+		return null;
 	}
 
 	public function load(): void {

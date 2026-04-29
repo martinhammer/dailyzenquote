@@ -3,24 +3,15 @@
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>dailyzenquote</id>
 	<name>Daily Zen Quote</name>
-	<summary>Shows an inspirational quote</summary>
-	<description>This application shows a quote  from ZenQuotes.io. It uses the quote of the day API, and thus the quote is refreshed daily.</description>
-	<version>1.0.0</version>
+	<summary>Dashboard widget that shows an inspirational quote</summary>
+	<description>This dashboard widget shows a quote  from ZenQuotes.io. It uses the quote of the day API, and thus the quote is refreshed daily.</description>
+	<version>2.0.0</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author mail="me@martinhammer.com" homepage="https://github.com/martinhammer">Martin Hammer</author>
 	<namespace>DailyZenQuote</namespace>
-	<category>games</category>
-	<bugs>https://github.com/martinhammer/zenquote</bugs>
+	<category>dashboard</category>
+	<bugs>https://github.com/martinhammer/dailyzenquote</bugs>
 	<dependencies>
 		<nextcloud min-version="31" max-version="32"/>
 	</dependencies>
-	<navigations>
-		<navigation>
-			<id>dailyzenquote</id>
-			<name>Daily Zen Quote</name>
-			<route>dailyzenquote.page.index</route>
-			<icon>app.svg</icon>
-			<type>link</type>
-		</navigation>
-	</navigations>
 </info>
