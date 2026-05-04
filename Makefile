@@ -19,6 +19,7 @@ help:
 	@echo "  make lint         Run all linters (PHP, ESLint, Stylelint)"
 	@echo "  make test         Run PHPUnit"
 	@echo "  make psalm        Run Psalm"
+	@echo "  make openapi      Regenerate openapi.json and verify it matches the committed copy"
 	@echo "  make clean        Remove build artifacts (build/, js/, css/) — keeps dev deps installed"
 	@echo "  make distclean    clean + remove node_modules/, vendor/, vendor-bin/*/vendor/"
 	@echo ""
@@ -74,8 +75,19 @@ test:
 psalm:
 	composer psalm
 
+# Regenerate openapi.json (and src/types/openapi/*.ts if present) and fail
+# if the result differs from what's committed — same check CI runs.
+.PHONY: openapi
+openapi:
+	composer openapi
+	@if [ -n "$$(git status --porcelain openapi.json src/types/openapi 2>/dev/null)" ]; then \
+		echo "openapi.json is out of date — commit the regenerated file."; \
+		git --no-pager diff -- openapi.json src/types/openapi; \
+		exit 1; \
+	fi
+
 .PHONY: check
-check: lint psalm test
+check: lint psalm test openapi
 
 # --- Packaging -------------------------------------------------------------
 #
