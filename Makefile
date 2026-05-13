@@ -5,7 +5,7 @@ release_dir = $(build_dir)/release
 release_stage = $(release_dir)/$(app_name)
 prod_install_dir = $(build_dir)/prod-install
 version = $(shell xmllint --xpath "string(//info/version)" appinfo/info.xml 2>/dev/null || grep -oPm1 "(?<=<version>)[^<]+" appinfo/info.xml)
-zip_name = $(app_name)-v$(version).zip
+archive_name = $(app_name)-v$(version).tar.gz
 
 .DEFAULT_GOAL := help
 
@@ -15,7 +15,7 @@ help:
 	@echo ""
 	@echo "  make build        Build frontend + stage PHP runtime deps in build/"
 	@echo "  make stage        Stage a deployable tree from the working tree (uncommitted changes)"	
-	@echo "  make package      Build and produce $(zip_name) under build/release/"
+	@echo "  make package      Build and produce $(archive_name) under build/release/"
 	@echo "  make dev          Install all dev dependencies (npm + composer with tooling)"
 	@echo "  make lint         Run all linters (PHP, ESLint, Stylelint)"
 	@echo "  make test         Run PHPUnit"
@@ -136,12 +136,20 @@ package: build
 	       $(release_stage)/.nvmrc \
 	       $(release_stage)/.php-cs-fixer.dist.php \
 	       $(release_stage)/.gitignore
-	# Build the zip
-	cd $(release_dir) && zip -r -q $(zip_name) $(app_name)/ -x '*.DS_Store'
+	# Strip macOS resource forks before archiving
+	find $(release_stage) -name '.DS_Store' -delete
+	# Build the tarball: gzipped tar with a single top-level $(app_name)/ directory,
+	# deterministic ownership/mtime so the archive — and its signature — are reproducible.
+	cd $(release_dir) && tar \
+	    --owner=0 --group=0 --numeric-owner \
+	    --sort=name \
+	    --mtime='UTC 2020-01-01' \
+	    --format=gnu \
+	    -czf $(archive_name) $(app_name)/
 	@echo ""
-	@echo "Built $(release_dir)/$(zip_name)"
-	@du -h $(release_dir)/$(zip_name) | awk '{print "Size: " $$1}'
-	@unzip -l $(release_dir)/$(zip_name) | tail -1
+	@echo "Built $(release_dir)/$(archive_name)"
+	@du -h $(release_dir)/$(archive_name) | awk '{print "Size: " $$1}'
+	@tar -tzf $(release_dir)/$(archive_name) | wc -l | awk '{print $$1 " entries"}'
 
 # --- Staging from the working tree ----------------------------------------
 #
