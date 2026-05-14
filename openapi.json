@@ -3,7 +3,7 @@
     "info": {
         "title": "dailyzenquote",
         "version": "0.0.1",
-        "description": "Dashboard widget that shows an inspirational quote",
+        "description": "Daily insipiration on your dashboard",
         "license": {
             "name": "AGPL-3.0-or-later"
         }
