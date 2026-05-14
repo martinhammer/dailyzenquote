@@ -1,6 +1,6 @@
 # Daily Zen Quote
 
-A simple Nextcloud dashboard widget which shows a Zen Quote of the Day. The quotes come from [ZenQuotes.io](https://zenquotes.io/) using the [featured daily quote API](https://docs.zenquotes.io/zenquotes-documentation/#call-today).
+A simple Nextcloud dashboard widget which shows a Zen Quote of the Day. The inspirational quotes come from [ZenQuotes.io](https://zenquotes.io/) using the [featured daily quote API](https://docs.zenquotes.io/zenquotes-documentation/#call-today).
 
 ### Motivation
 
@@ -12,4 +12,4 @@ Feel free to get in touch and/or submit an issue.
 
 ### Screenshot
 
-![Screenshot of dashboard widget](img/Screenshot04.png)
+![Screenshot of dashboard widget](img/Screenshot05.png)
