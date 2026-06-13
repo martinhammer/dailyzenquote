@@ -16,10 +16,10 @@ The developer has no affiliation with ZenQuotes.io and is not responsible for th
 	<author mail="me@martinhammer.com" homepage="https://github.com/martinhammer">Martin Hammer</author>
 	<namespace>DailyZenQuote</namespace>
 	<category>dashboard</category>
-    <screenshot>https://raw.githubusercontent.com/martinhammer/dailyzenquote/main/img/Screenshot05.png</screenshot>
 	<website>https://github.com/martinhammer/dailyzenquote</website>
 	<bugs>https://github.com/martinhammer/dailyzenquote</bugs>
-    <repository type="git">https://github.com/martinhammer/dailyzenquote</repository>
+	<repository type="git">https://github.com/martinhammer/dailyzenquote</repository>
+	<screenshot>https://raw.githubusercontent.com/martinhammer/dailyzenquote/main/img/Screenshot05.png</screenshot>
 	<dependencies>
 		<nextcloud min-version="31" max-version="34"/>
 	</dependencies>
