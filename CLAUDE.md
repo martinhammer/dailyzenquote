@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Daily Zen Quote — a Nextcloud app that displays an inspirational quote of the day from the ZenQuotes.io API as a Nextcloud Dashboard widget. Targets Nextcloud 31–32, PHP 8.1+, Node 24+.
+Daily Zen Quote — a Nextcloud app that displays an inspirational quote of the day from the ZenQuotes.io API as a Nextcloud Dashboard widget. Targets Nextcloud 32-34, PHP 8.1+, Node 24+.
 
 The app source lives at the repository root (the standard Nextcloud app layout).
 

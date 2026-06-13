@@ -11,7 +11,7 @@ It uses the quote of the day API, and thus the quote is refreshed daily.
 
 The developer has no affiliation with ZenQuotes.io and is not responsible for the content.
 	]]></description>
-	<version>2.0.3</version>
+	<version>2.0.4</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author mail="me@martinhammer.com" homepage="https://github.com/martinhammer">Martin Hammer</author>
 	<namespace>DailyZenQuote</namespace>
@@ -21,6 +21,6 @@ The developer has no affiliation with ZenQuotes.io and is not responsible for th
 	<repository type="git">https://github.com/martinhammer/dailyzenquote</repository>
 	<screenshot>https://raw.githubusercontent.com/martinhammer/dailyzenquote/main/img/Screenshot05.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="31" max-version="34"/>
+		<nextcloud min-version="32" max-version="34"/>
 	</dependencies>
 </info>
