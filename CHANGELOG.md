@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [3.0.0] - 2026-06-18
+
+### Added
+- "On This Day" API from ZenQuotes.io API as additional provider of content 
+- Personal Settings screen to select what the widget content - the options are Daily Zen Quote (default), On This Day - Events, On This Day - Notable Births and Deaths, On This Day combined
+- Selected option is stored as a per-user preference
+
+### Changed
+- The widget title and content depends on the user's saved preference
+- The widget shows a wrap-around carousel with next/back arrows when there is more than one item to show (i.e. On This Day content)
+
+
 ## [2.0.4] - 2026-06-13
 
 ### Changed
