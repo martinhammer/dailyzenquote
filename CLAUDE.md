@@ -47,6 +47,7 @@ Widget reads its mode from `IInitialState` → composable fetches `/quote` or `/
 
 - **TypeScript in `.vue` files:** the `@nextcloud` eslint config parses `<script setup lang="ts">` with `@babel/eslint-parser`, which CANNOT parse TS type syntax (type annotations, generics, `import type`). Keep `.vue` scripts free of TS-only syntax; put types in `.ts` files. (esbuild/vite still elides type-only imports, so plain `import { SomeType }` works at build time.)
 - **OpenAPI:** new/changed OCS routes require regenerating `openapi.json` (`make openapi`); CI fails if it's out of date.
+- **Per-user config:** use `OCP\Config\IUserConfig` (`getValueString`/`setValueString`), NOT the deprecated `OCP\IConfig::getUserValue`/`setUserValue` — the latter passes psalm on stable32 but fails the `DeprecatedMethod` check on the stable33/34 psalm matrix.
 - **Widget full-bleed CSS:** `Widget.vue`'s `.widget` uses `width: calc(100% + 56px); margin-inline: -28px` to bleed the carousel arrows out into the dashboard panel's padding toward the box edge. The `28px`/`56px` pair is the tuning knob and must stay in sync (`width: calc(100% + 2 * margin)`).
 
 ## User Instructions

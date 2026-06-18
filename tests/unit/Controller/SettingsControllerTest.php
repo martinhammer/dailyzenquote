@@ -7,7 +7,7 @@ namespace Controller;
 use OCA\DailyZenQuote\AppInfo\Application;
 use OCA\DailyZenQuote\Controller\SettingsController;
 use OCP\AppFramework\Http;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -15,12 +15,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class SettingsControllerTest extends TestCase {
-	private IConfig&MockObject $config;
+	private IUserConfig&MockObject $config;
 	private IUserSession&MockObject $userSession;
 	private SettingsController $controller;
 
 	protected function setUp(): void {
-		$this->config = $this->createMock(IConfig::class);
+		$this->config = $this->createMock(IUserConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->controller = new SettingsController(
 			Application::APP_ID,
@@ -39,7 +39,7 @@ final class SettingsControllerTest extends TestCase {
 	public function testValidModePersistsAndReturns(): void {
 		$this->mockUser('alice');
 		$this->config->expects($this->once())
-			->method('setUserValue')
+			->method('setValueString')
 			->with('alice', Application::APP_ID, 'mode', 'all');
 
 		$response = $this->controller->setMode('all');
@@ -49,7 +49,7 @@ final class SettingsControllerTest extends TestCase {
 	}
 
 	public function testInvalidModeRejected(): void {
-		$this->config->expects($this->never())->method('setUserValue');
+		$this->config->expects($this->never())->method('setValueString');
 
 		$response = $this->controller->setMode('bogus');
 
@@ -59,7 +59,7 @@ final class SettingsControllerTest extends TestCase {
 
 	public function testNoUserSessionRejected(): void {
 		$this->userSession->method('getUser')->willReturn(null);
-		$this->config->expects($this->never())->method('setUserValue');
+		$this->config->expects($this->never())->method('setValueString');
 
 		$response = $this->controller->setMode('events');
 

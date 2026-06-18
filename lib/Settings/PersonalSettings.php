@@ -7,7 +7,7 @@ namespace OCA\DailyZenQuote\Settings;
 use OCA\DailyZenQuote\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
@@ -17,7 +17,7 @@ use OCP\Settings\ISettings;
 class PersonalSettings implements ISettings {
 	public function __construct(
 		private IInitialState $initialState,
-		private IConfig $config,
+		private IUserConfig $config,
 		private IUserSession $userSession,
 	) {
 	}
@@ -25,7 +25,7 @@ class PersonalSettings implements ISettings {
 	public function getForm(): TemplateResponse {
 		$user = $this->userSession->getUser();
 		$mode = $user !== null
-			? $this->config->getUserValue($user->getUID(), Application::APP_ID, 'mode', Application::DEFAULT_MODE)
+			? $this->config->getValueString($user->getUID(), Application::APP_ID, 'mode', Application::DEFAULT_MODE)
 			: Application::DEFAULT_MODE;
 
 		$this->initialState->provideInitialState('mode', $mode);
