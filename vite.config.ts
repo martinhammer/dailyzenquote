@@ -4,6 +4,7 @@ import { join, resolve } from 'path'
 export default createAppConfig(
 	{
 		widget: resolve(join('src', 'widget.ts')),
+		settings: resolve(join('src', 'settings.ts')),
 	},
 	{
 		createEmptyCSSEntryPoints: true,

@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace OCA\DailyZenQuote\Dashboard;
 
 use OCA\DailyZenQuote\AppInfo\Application;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Dashboard\IWidget;
+use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Util;
 
 /**
@@ -16,6 +19,9 @@ use OCP\Util;
 class ZenQuoteWidget implements IWidget {
 	public function __construct(
 		private IURLGenerator $urlGenerator,
+		private IConfig $config,
+		private IUserSession $userSession,
+		private IInitialState $initialState,
 	) {
 	}
 
@@ -24,7 +30,9 @@ class ZenQuoteWidget implements IWidget {
 	}
 
 	public function getTitle(): string {
-		return 'Zen Quote of the Day';
+		return $this->getMode() === Application::MODE_QUOTE
+			? 'Daily Zen Quote'
+			: 'On This Day';
 	}
 
 	public function getOrder(): int {
@@ -44,7 +52,24 @@ class ZenQuoteWidget implements IWidget {
 	}
 
 	public function load(): void {
+		$this->initialState->provideInitialState('mode', $this->getMode());
+
 		Util::addScript(Application::APP_ID, Application::APP_ID . '-widget');
 		Util::addStyle(Application::APP_ID, Application::APP_ID . '-widget');
+	}
+
+	/**
+	 * The current user's selected widget content mode, falling back to the
+	 * default for anonymous sessions or unrecognised stored values.
+	 */
+	private function getMode(): string {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return Application::DEFAULT_MODE;
+		}
+
+		$mode = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'mode', Application::DEFAULT_MODE);
+
+		return in_array($mode, Application::MODES, true) ? $mode : Application::DEFAULT_MODE;
 	}
 }
