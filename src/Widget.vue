@@ -23,6 +23,20 @@ const label = computed(() => {
 	const kind = currentItem.value?.kind
 	return kind && kind !== 'quote' ? labels[kind] : null
 })
+
+// Shrink the font for longer entries so they fit the fixed-height widget.
+// Character count is a rough proxy for rendered height; the ~90% of entries
+// under 220 chars keep the default size.
+const textSize = computed(() => {
+	const length = currentItem.value?.text.length ?? 0
+	if (length > 320) {
+		return '1rem'
+	}
+	if (length >= 220) {
+		return '1.2rem'
+	}
+	return '1.4rem'
+})
 </script>
 
 <template>
@@ -66,7 +80,7 @@ const label = computed(() => {
 
 			<div :class="$style.card">
 				<span v-if="label" :class="$style.label">{{ label }}</span>
-				<p :class="$style.text">{{ currentItem.text }}</p>
+				<p :class="$style.text" :style="{ fontSize: textSize }">{{ currentItem.text }}</p>
 				<span v-if="hasMultiple" :class="$style.counter">{{ index + 1 }} / {{ items.length }}</span>
 			</div>
 
