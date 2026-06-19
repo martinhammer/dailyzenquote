@@ -10,7 +10,7 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
 
@@ -21,7 +21,7 @@ class SettingsController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private IConfig $config,
+		private IUserConfig $config,
 		private IUserSession $userSession,
 	) {
 		parent::__construct($appName, $request);
@@ -54,7 +54,7 @@ class SettingsController extends OCSController {
 			);
 		}
 
-		$this->config->setUserValue($user->getUID(), Application::APP_ID, 'mode', $mode);
+		$this->config->setValueString($user->getUID(), Application::APP_ID, 'mode', $mode);
 
 		return new DataResponse(['mode' => $mode]);
 	}

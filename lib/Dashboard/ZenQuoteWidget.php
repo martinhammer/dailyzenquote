@@ -6,8 +6,8 @@ namespace OCA\DailyZenQuote\Dashboard;
 
 use OCA\DailyZenQuote\AppInfo\Application;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Config\IUserConfig;
 use OCP\Dashboard\IWidget;
-use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Util;
@@ -19,7 +19,7 @@ use OCP\Util;
 class ZenQuoteWidget implements IWidget {
 	public function __construct(
 		private IURLGenerator $urlGenerator,
-		private IConfig $config,
+		private IUserConfig $config,
 		private IUserSession $userSession,
 		private IInitialState $initialState,
 	) {
@@ -68,7 +68,7 @@ class ZenQuoteWidget implements IWidget {
 			return Application::DEFAULT_MODE;
 		}
 
-		$mode = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'mode', Application::DEFAULT_MODE);
+		$mode = $this->config->getValueString($user->getUID(), Application::APP_ID, 'mode', Application::DEFAULT_MODE);
 
 		return in_array($mode, Application::MODES, true) ? $mode : Application::DEFAULT_MODE;
 	}
