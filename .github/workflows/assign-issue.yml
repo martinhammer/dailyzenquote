@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: MIT
+
+name: Assign issue to owner
+
+on:
+  issues:
+    types: [opened, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: assign-issue-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  assign:
+    name: Assign issue to owner
+    runs-on: ubuntu-latest
+
+    permissions:
+      issues: write
+
+    steps:
+      - name: Assign the issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          gh issue edit "$ISSUE_NUMBER" --repo "$REPO" --add-assignee "$OWNER"
