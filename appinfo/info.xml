@@ -22,7 +22,7 @@ The developer has no affiliation with ZenQuotes.io and is not responsible for th
 	<screenshot>https://raw.githubusercontent.com/martinhammer/dailyzenquote/main/img/Screenshot05.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/martinhammer/dailyzenquote/main/img/Screenshot06.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="32" max-version="34"/>
+		<nextcloud min-version="32" max-version="35"/>
 	</dependencies>
 	<settings>
 		<personal>OCA\DailyZenQuote\Settings\PersonalSettings</personal>
