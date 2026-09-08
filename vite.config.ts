@@ -8,6 +8,9 @@ export default createAppConfig(
 	},
 	{
 		createEmptyCSSEntryPoints: true,
+		// `js/` is wiped on every build by default; opt `css/` in too, otherwise
+		// hashed chunks from earlier builds pile up there forever.
+		emptyOutputDirectory: { additionalDirectories: ['css'] },
 		extractLicenseInformation: true,
 		thirdPartyLicense: false,
 	},

@@ -7,6 +7,7 @@ namespace OCA\DailyZenQuote\Dashboard;
 use OCA\DailyZenQuote\AppInfo\Application;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Config\IUserConfig;
+use OCP\Dashboard\IIconWidget;
 use OCP\Dashboard\IWidget;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
@@ -16,7 +17,7 @@ use OCP\Util;
  * @psalm-api
  * @psalm-suppress UnusedClass
  */
-class ZenQuoteWidget implements IWidget {
+class ZenQuoteWidget implements IWidget, IIconWidget {
 	public function __construct(
 		private IURLGenerator $urlGenerator,
 		private IUserConfig $config,
@@ -44,7 +45,7 @@ class ZenQuoteWidget implements IWidget {
 	}
 
 	public function getIconUrl(): string {
-		return $this->urlGenerator->imagePath(Application::APP_ID, 'app-dark.svg');
+		return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath(Application::APP_ID, 'app-dark.svg'));
 	}
 
 	public function getUrl(): ?string {
