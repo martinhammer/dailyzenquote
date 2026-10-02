@@ -60,7 +60,7 @@ const textSize = computed(() => {
 			<figcaption :class="$style.author">— {{ currentItem.author }}</figcaption>
 		</figure>
 
-		<div v-else :class="[$style.carousel, 'dzq-carousel']">
+		<div v-else :class="[$style.carousel, { [$style.bleed]: hasMultiple }, 'dzq-carousel']">
 			<NcButton
 				v-if="hasMultiple"
 				:aria-label="t('dailyzenquote', 'Previous')"
@@ -123,15 +123,8 @@ const textSize = computed(() => {
 
 <style module>
 .widget {
-	padding: 12px 16px;
-	/*
-	 * Full-bleed: widen the widget beyond the dashboard panel's content box and
-	 * offset it symmetrically, so the carousel arrows reach into the panel's own
-	 * padding toward the box edge. The 28px is the tuning knob (keep width's half
-	 * in sync: calc(100% + 2 * knob)).
-	 */
-	width: calc(100% + 56px);
-	margin-inline: -28px;
+	/* The dashboard panel already insets its content box 16px from the edge. */
+	padding: 12px 4px;
 	height: 100%;
 	display: flex;
 	align-items: center;
@@ -153,7 +146,7 @@ const textSize = computed(() => {
 .quote {
 	line-height: 1.5;
 	margin: 0 0 8px;
-	font-size: 1.5rem;
+	font-size: 1.4rem;
 	color: var(--color-main-text);
 }
 
@@ -167,7 +160,17 @@ const textSize = computed(() => {
 	align-items: center;
 	gap: 0;
 	width: 100%;
-	/* Pull the arrows outward into the widget padding to widen the text column. */
+}
+
+/*
+ * Full-bleed, only when the arrows are shown: widen the carousel beyond the
+ * widget's content box and offset it symmetrically, so the arrows reach into
+ * the widget and dashboard panel padding toward the box edge, freeing width for
+ * the entry text. The 16px is the tuning knob (keep width in sync:
+ * calc(100% + 2 * knob)).
+ */
+.bleed {
+	width: calc(100% + 32px);
 	margin-inline: -16px;
 }
 
