@@ -12,11 +12,12 @@ use OCP\ICacheFactory;
  */
 class QuoteService {
 	private const ZENQUOTES_URL = 'https://zenquotes.io/api/today';
+
 	private const CACHE_TTL = 86400;
 
 	public function __construct(
-		private IClientService $clientService,
-		private ICacheFactory $cacheFactory,
+		private readonly IClientService $clientService,
+		private readonly ICacheFactory $cacheFactory,
 	) {
 	}
 
@@ -40,11 +41,11 @@ class QuoteService {
 			$client = $this->clientService->newClient();
 			$response = $client->get(self::ZENQUOTES_URL);
 			$data = json_decode((string)$response->getBody(), true);
-		} catch (\Exception $e) {
-			throw new QuoteFetchException('Failed to fetch quote from ZenQuotes API: ' . $e->getMessage(), 0, $e);
+		} catch (\Exception $exception) {
+			throw new QuoteFetchException('Failed to fetch quote from ZenQuotes API: ' . $exception->getMessage(), 0, $exception);
 		}
 
-		if (!is_array($data) || empty($data) || !isset($data[0]['q'], $data[0]['a'])) {
+		if (!is_array($data) || $data === [] || !isset($data[0]['q'], $data[0]['a'])) {
 			throw new QuoteFetchException('Unexpected response format from ZenQuotes API');
 		}
 

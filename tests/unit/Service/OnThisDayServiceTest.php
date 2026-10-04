@@ -16,16 +16,17 @@ use PHPUnit\Framework\TestCase;
 
 final class OnThisDayServiceTest extends TestCase {
 	private IClientService&MockObject $clientService;
-	private ICacheFactory&MockObject $cacheFactory;
+
 	private ICache&MockObject $cache;
+
 	private OnThisDayService $service;
 
 	protected function setUp(): void {
 		$this->clientService = $this->createMock(IClientService::class);
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
-		$this->cacheFactory->method('createDistributed')->willReturn($this->cache);
-		$this->service = new OnThisDayService($this->clientService, $this->cacheFactory);
+		$cacheFactory->method('createDistributed')->willReturn($this->cache);
+		$this->service = new OnThisDayService($this->clientService, $cacheFactory);
 	}
 
 	public function testReturnsCachedValueWithoutUpstreamCall(): void {

@@ -21,8 +21,8 @@ class ApiController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private QuoteService $quoteService,
-		private OnThisDayService $onThisDayService,
+		private readonly QuoteService $quoteService,
+		private readonly OnThisDayService $onThisDayService,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -40,7 +40,7 @@ class ApiController extends OCSController {
 	public function quote(): DataResponse {
 		try {
 			return new DataResponse($this->quoteService->fetchQuote());
-		} catch (QuoteFetchException $e) {
+		} catch (QuoteFetchException) {
 			return new DataResponse(
 				['message' => 'Failed to fetch quote'],
 				Http::STATUS_INTERNAL_SERVER_ERROR,
@@ -61,7 +61,7 @@ class ApiController extends OCSController {
 	public function onThisDay(): DataResponse {
 		try {
 			return new DataResponse($this->onThisDayService->fetchOnThisDay());
-		} catch (QuoteFetchException $e) {
+		} catch (QuoteFetchException) {
 			return new DataResponse(
 				['message' => 'Failed to fetch On This Day data'],
 				Http::STATUS_INTERNAL_SERVER_ERROR,

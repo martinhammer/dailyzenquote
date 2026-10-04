@@ -16,9 +16,9 @@ use OCP\Settings\ISettings;
  */
 class PersonalSettings implements ISettings {
 	public function __construct(
-		private IInitialState $initialState,
-		private IUserConfig $config,
-		private IUserSession $userSession,
+		private readonly IInitialState $initialState,
+		private readonly IUserConfig $config,
+		private readonly IUserSession $userSession,
 	) {
 	}
 

@@ -19,10 +19,10 @@ use OCP\Util;
  */
 class ZenQuoteWidget implements IWidget, IIconWidget {
 	public function __construct(
-		private IURLGenerator $urlGenerator,
-		private IUserConfig $config,
-		private IUserSession $userSession,
-		private IInitialState $initialState,
+		private readonly IURLGenerator $urlGenerator,
+		private readonly IUserConfig $config,
+		private readonly IUserSession $userSession,
+		private readonly IInitialState $initialState,
 	) {
 	}
 

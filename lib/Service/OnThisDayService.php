@@ -14,11 +14,12 @@ use OCP\ICacheFactory;
  */
 class OnThisDayService {
 	private const ZENQUOTES_URL = 'https://today.zenquotes.io/api';
+
 	private const CACHE_TTL = 86400;
 
 	public function __construct(
-		private IClientService $clientService,
-		private ICacheFactory $cacheFactory,
+		private readonly IClientService $clientService,
+		private readonly ICacheFactory $cacheFactory,
 	) {
 	}
 
@@ -46,8 +47,8 @@ class OnThisDayService {
 			$client = $this->clientService->newClient();
 			$response = $client->get($url);
 			$data = json_decode((string)$response->getBody(), true);
-		} catch (\Exception $e) {
-			throw new QuoteFetchException('Failed to fetch On This Day data from ZenQuotes API: ' . $e->getMessage(), 0, $e);
+		} catch (\Exception $exception) {
+			throw new QuoteFetchException('Failed to fetch On This Day data from ZenQuotes API: ' . $exception->getMessage(), 0, $exception);
 		}
 
 		if (!is_array($data) || !isset($data['data']) || !is_array($data['data'])) {
@@ -82,6 +83,7 @@ class OnThisDayService {
 			if (!is_array($entry) || !isset($entry['text'])) {
 				continue;
 			}
+
 			$text = trim(strip_tags((string)$entry['text']));
 			if ($text !== '') {
 				$entries[] = ['text' => $text];

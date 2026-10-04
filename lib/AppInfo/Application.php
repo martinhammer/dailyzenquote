@@ -15,8 +15,11 @@ class Application extends App implements IBootstrap {
 
 	/** Widget content modes, persisted as the per-user 'mode' preference. */
 	public const MODE_QUOTE = 'quote';
+
 	public const MODE_EVENTS = 'events';
+
 	public const MODE_BIRTHS_DEATHS = 'births_deaths';
+
 	public const MODE_ALL = 'all';
 
 	public const DEFAULT_MODE = self::MODE_QUOTE;

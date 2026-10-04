@@ -14,8 +14,10 @@ use OCP\IRequest;
 use PHPUnit\Framework\TestCase;
 
 final class ApiTest extends TestCase {
-	private QuoteService $quoteService;
-	private OnThisDayService $onThisDayService;
+	private \PHPUnit\Framework\MockObject\MockObject $quoteService;
+
+	private \PHPUnit\Framework\MockObject\MockObject $onThisDayService;
+
 	private ApiController $controller;
 
 	protected function setUp(): void {

@@ -21,8 +21,8 @@ class SettingsController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private IUserConfig $config,
-		private IUserSession $userSession,
+		private readonly IUserConfig $config,
+		private readonly IUserSession $userSession,
 	) {
 		parent::__construct($appName, $request);
 	}

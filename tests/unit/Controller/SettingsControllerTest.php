@@ -16,7 +16,9 @@ use PHPUnit\Framework\TestCase;
 
 final class SettingsControllerTest extends TestCase {
 	private IUserConfig&MockObject $config;
+
 	private IUserSession&MockObject $userSession;
+
 	private SettingsController $controller;
 
 	protected function setUp(): void {
