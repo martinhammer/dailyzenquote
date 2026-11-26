@@ -1,12 +1,8 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+# CLAUDE.md — Daily Zen Quote
 
 ## Project Overview
 
 Daily Zen Quote — a Nextcloud app that shows, on a Dashboard widget, either an inspirational quote of the day or "On This Day" historical entries (Events / Births / Deaths) from the ZenQuotes.io APIs. Each user chooses the content via personal settings. Targets Nextcloud 33-36 (`appinfo/info.xml`), PHP 8.2+, Node 24+.
-
-The app source lives at the repository root (the standard Nextcloud app layout).
 
 ### Widget content modes
 
@@ -43,19 +39,20 @@ The widget uses **`src/composables/useWidgetContent.ts`**: reads `mode` from ini
 
 Widget reads its mode from `IInitialState` → composable fetches `/quote` or `/onthisday` (OCS) → `QuoteService` / `OnThisDayService` (cache check → ZenQuotes.io) → response bubbles back; the composable labels + shuffles On-This-Day entries for the carousel.
 
+## Commands
+
+The Makefile is the shared one (nextcloud `app-project-files` skill): `make lint`,
+`make test`, `make psalm`, `make openapi`, `make check`. Release and staging
+targets are Martin's. `make lint` needs an npm `ts:check` script, which is still
+missing (`docs/backlog.md`).
+
 ## Gotchas
 
-- **TypeScript in `.vue` files:** the `@nextcloud` eslint config parses `<script setup lang="ts">` with `@babel/eslint-parser`, which CANNOT parse TS type syntax (type annotations, generics, `import type`). Keep `.vue` scripts free of TS-only syntax; put types in `.ts` files. (esbuild/vite still elides type-only imports, so plain `import { SomeType }` works at build time.)
-- **OpenAPI:** new/changed OCS routes require regenerating `openapi.json` (`make openapi`); CI fails if it's out of date.
-- **Per-user config:** use `OCP\Config\IUserConfig` (`getValueString`/`setValueString`), NOT the deprecated `OCP\IConfig::getUserValue`/`setUserValue` — the latter passed psalm on stable32 but fails the `DeprecatedMethod` check on stable33+. (`composer.json` pins `nextcloud/ocp:dev-stable33` locally = the min version, and the weekly `update-nextcloud-ocp-matrix.yml` targets the same branch; CI derives the psalm matrix from `info.xml`, so every branch up to stable36 is checked.)
-- **Rector must not privatise test methods:** `rector.php` skips `PrivatizeFinalClassMethodRector` for `tests/`. Rector doesn't recognise `setUp()` as a `TestCase` override (PHPUnit is installed only in `vendor-bin/phpunit`, and pointing `withAutoloadPaths()` at it did not help), so in the `final` test classes it makes `setUp()` private and `RemoveUnusedPrivateMethodRector` then deletes it. Every test then fails with "must not be accessed before initialization".
-- **Don't import `@nextcloud/dialogs/style.css`:** since `@nextcloud/dialogs` v8 the package entry points inject their own styles and that export was removed, so the import breaks the build (v7 needed it in every toast-showing entry point). v8 toasts appear at the bottom start of the page by design; shift them up with the `--toast-offset-block-end` CSS variable if needed. `showSuccess`/`showError` now return a `ToastHandle`, not a Toastify `Toast`.
-- **Icon colour belongs on the root `<svg>`, never below it:** the Active-apps list (`OC_App::getAppInfo()` picks `img/<appid>.svg`, else `img/app.svg`) **inlines** the SVG through `NcIconSvgWrapper`, whose `.icon-vue svg { fill: currentColor }` matches the root element only. A root `fill` is overridden by that rule (so the icon adapts to the theme); a `fill`/`stroke` on a `<g>` or `<path>` is never reached, wins for its subtree, and freezes the glyph to one colour in both themes — which is how `app.svg` once rendered white-on-white. Per the Nextcloud icon contract the two files are the same artwork differing in exactly one attribute: `img/app.svg` carries `fill="#fff"` on the root (white standalone), `img/app-dark.svg` carries no fill (black standalone); both declare `viewBox` + `width`/`height`.
-- **Dashboard vs. settings icon URLs:** `IIconWidget::getIconUrl()` requires an **absolute** URL (`getAbsoluteURL(imagePath(...))`), `IIconSection::getIcon()` in `PersonalSection` wants the opposite — a bare relative `imagePath()`. Both point at `img/app-dark.svg`, which is loaded as an image (not inlined) and so renders black + gets inverted for dark mode.
-- **`js/`+`css/` are disposable:** both are gitignored build output and both are deleted on every build — `js/` by default, `css/` only via `emptyOutputDirectory: { additionalDirectories: ['css'] }` in `vite.config.ts` (without it, hashed chunks from old builds pile up). Never hand-edit or store anything there; source styles belong in `src/`.
+Platform gotchas are in the nextcloud skills (php-backend, vue-frontend,
+app-icons, dashboard-widget, eslint-v9-migration). Project-specific ones:
+
+- **TypeScript in `.vue` files:** until the ESLint v9 migration (`docs/backlog.md`),
+  keep `<script setup lang="ts">` free of TS-only syntax and put types in `.ts`
+  files (why: nextcloud `eslint-v9-migration` skill).
 - **@nextcloud/vue internal class names:** `Widget.vue` shrinks the carousel arrows with `.dzq-carousel .button-vue { … !important }`. `button-vue` is NcButton's internal class, not public API — re-verify it after any `@nextcloud/vue` major bump, since a rename fails silently (arrows just revert to full width).
 - **Widget full-bleed CSS:** only the carousel bleeds, and only when it shows arrows: `Widget.vue` adds `.bleed` (`width: calc(100% + 32px); margin-inline: -16px`) when `hasMultiple`, pushing the arrows out into the panel's padding toward the box edge. The `16px`/`32px` pair is the tuning knob and must stay in sync (`width: calc(100% + 2 * margin)`). Don't put the bleed on `.widget` itself — that once squeezed the quote text to ~4px from the panel edge. The width must exactly offset the negative margins: the widget is a centring flex container, so a negative margin without the matching width is silently cancelled out.
-
-## User Instructions
-The owner does not want Claude to run any build commands.
-The owner does not want Claude to run any git commands.
